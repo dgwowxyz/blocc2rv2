@@ -360,8 +360,11 @@ end
 
 for _, EnumFont in ipairs(Enum.Font:GetEnumItems()) do
     local Name = EnumFont.Name
-    Library.FontRegistry[Name] = Font.fromEnum(EnumFont)
-    table.insert(Library.FontOrder, Name)
+    local ok, FontValue = pcall(Font.fromEnum, EnumFont)
+    if ok and FontValue then
+        Library.FontRegistry[Name] = FontValue
+        table.insert(Library.FontOrder, Name)
+    end
 end
 
 table.sort(Library.FontOrder)
